@@ -16,8 +16,8 @@ class Stack:
     def is_empty(self):
         return len(self.stk) == 0
 s = Stack()
-s.push(10)
 s.push(20)
 s.push(30)
+s.push(40)
 print(s.pop())
 print(s.peek())
