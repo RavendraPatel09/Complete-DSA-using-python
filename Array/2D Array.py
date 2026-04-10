@@ -25,3 +25,4 @@ for i in range(3):
     for j in range(4):
         print(C[i][j], end=" ")
     print()
+    print("this is the desire output for the given. matrix")
