@@ -9,3 +9,4 @@ for i in range(len(arr)):
 for i in range(maximum + 1):
     if H[i] > 1:
         print(i, "is repeated", H[i], "times")
+        
