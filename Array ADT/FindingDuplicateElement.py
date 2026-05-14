@@ -9,3 +9,4 @@ while i < n - 1:
         print(arr[i], "is repeated", j - i, "times")
         i = j - 1
     i += 1
+    
