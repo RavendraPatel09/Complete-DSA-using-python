@@ -1,66 +1,49 @@
 class Node:
-    def __init__(self,data):
-        self.data=data
-        self.lchild=None
-        self.rchild=None
-        self.height=1
+    def __init__(self,d):
+        self.data=d
+        self.left=None
+        self.right=None
+        self.h=1
 class AVL:
-    def __init__(self):
-        self.root=None
-    def NodeHeight(self,p):
-        hl=p.lchild.height if p and p.lchild else 0
-        hr=p.rchild.height if p and p.rchild else 0
-        return max(hl,hr)+1
-    def BalanceFactor(self,p):
-        hl=p.lchild.height if p and p.lchild else 0
-        hr=p.rchild.height if p and p.rchild else 0
-        return hl-hr
-    def LLRotation(self,p):
-        pl=p.lchild
-        plr=pl.rchild
-        pl.rchild=p
-        p.lchild=plr
-        p.height=self.NodeHeight(p)
-        pl.height=self.NodeHeight(pl)
-        if self.root==p:
-            self.root=pl
-        return pl
-    def RRRotation(self,p):
-        pr=p.rchild
-        prl=pr.lchild
-        pr.lchild=p
-        p.rchild=prl
-        p.height=self.NodeHeight(p)
-        pr.height=self.NodeHeight(pr)
-        if self.root==p:
-            self.root=pr
-        return pr
-    def rInsert(self,p,key):
-        if p is None:
+    def height(self,n):
+        return n.h if n else 0
+    def balance(self,n):
+        return self.height(n.left)-self.height(n.right)
+    def leftRotate(self,z):
+        y=z.right
+        z.right=y.left
+        y.left=z
+        z.h=max(self.height(z.left),self.height(z.right))+1
+        y.h=max(self.height(y.left),self.height(y.right))+1
+        return y
+    def rightRotate(self,z):
+        y=z.left
+        z.left=y.right
+        y.right=z
+        z.h=max(self.height(z.left),self.height(z.right))+1
+        y.h=max(self.height(y.left),self.height(y.right))+1
+        return y
+    def insert(self,root,key):
+        if not root:
             return Node(key)
-        if key<p.data:
-            p.lchild=self.rInsert(p.lchild,key)
-        elif key>p.data:
-            p.rchild=self.rInsert(p.rchild,key)
-        p.height=self.NodeHeight(p)
-        if self.BalanceFactor(p)==2 and self.BalanceFactor(p.lchild)==1:
-            return self.LLRotation(p)
-        if self.BalanceFactor(p)==-2 and self.BalanceFactor(p.rchild)==-1:
-            return self.RRRotation(p)
-        return p
-    def Inorder(self,p):
-        if p:
-            self.Inorder(p.lchild)
-            print(p.data,end=" ")
-            self.Inorder(p.rchild)
-tll=AVL()
-tll.root=tll.rInsert(tll.root,30)
-tll.root=tll.rInsert(tll.root,20)
-tll.root=tll.rInsert(tll.root,10)
-tll.Inorder(tll.root)
-print()
-trr=AVL()
-trr.root=trr.rInsert(trr.root,10)
-trr.root=trr.rInsert(trr.root,20)
-trr.root=trr.rInsert(trr.root,30)
-trr.Inorder(trr.root)
+        if key<root.data:
+            root.left=self.insert(root.left,key)
+        else:
+            root.right=self.insert(root.right,key)
+        root.h=max(self.height(root.left),self.height(root.right))+1
+        b=self.balance(root)
+        if b>1:
+            return self.rightRotate(root)
+        if b<-1:
+            return self.leftRotate(root)
+        return root
+    def inorder(self,root):
+        if root:
+            self.inorder(root.left)
+            print(root.data,end=" ")
+            self.inorder(root.right)
+t=AVL()
+root=None
+for i in [30,20,10]:
+    root=t.insert(root,i)
+t.inorder(root)
