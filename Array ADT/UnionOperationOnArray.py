@@ -28,7 +28,7 @@ def Union(arr1,arr2):
         arr3.append(arr2.A[j])
         j+=1
     return Array(arr3,20)
-arr1=Array([2,3,6,8,10],10)
-arr2=Array([1,4,5,8,10],10)
+arr1=Array([2,3,6,8,10,12],10)
+arr2=Array([1,4,5,8,10,11],10)
 arr3=Union(arr1,arr2)
 arr3.display()
